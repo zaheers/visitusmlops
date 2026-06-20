@@ -27,7 +27,7 @@ print("✅ Backend deployed successfully.")
 print(f"⏳ Uploading Streamlit UI from {frontend_path}...")
 api.upload_folder(
     folder_path=frontend_path, 
-    repo_id="zaheergshaikh/visitus-ui", 
+    repo_id="zaheergshaikh/visitusapp", 
     repo_type="space" 
 )
 print("✅ Frontend deployed successfully.")
