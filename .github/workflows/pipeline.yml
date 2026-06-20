@@ -1,37 +1,44 @@
-name: VisitUs MLOps End-to-End Pipeline
+%%writefile /content/drive/MyDrive/visitusmlops/.github/workflows/pipeline.yml
+name: VisitUs MLOps Pipeline
 
-# This section ensures deployment initiates on every commit to main
 on:
   push:
     branches:
       - main
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
-  build-train-deploy:
+  mlops-flow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python 3.9
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
+          
       - name: Install Dependencies
         run: |
-          # Dynamically finds and installs all requirements files in the repo
+          pip install pandas scikit-learn xgboost huggingface_hub mlflow joblib
           find . -name "requirements.txt" -exec pip install -r {} \;
 
-      - name: Execute Model Training
+      - name: Execute MLOps Steps
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          # Ensure directories exist for the runner
+          mkdir -p backend/model_building
+          
+          # Sequential execution
+          echo "Registering Data..."
+          python backend/model_building/data_register.py
+          
+          echo "Preparing Data..."
+          python backend/model_building/prep.py
+          
+          echo "Training Model..."
           python backend/model_building/train.py
-
-      - name: Deploy to Hugging Face
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
+          
+          echo "Deploying..."
           python hosting.py
