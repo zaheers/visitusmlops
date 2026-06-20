@@ -1,17 +1,3 @@
-
-FROM python:3.9-slim
-
-WORKDIR /app
-
-# Copy requirements and install
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy your application code
-COPY app.py .
-
-# Expose the Streamlit port
-EXPOSE 7860
-
-# Command to run the app
-CMD ["streamlit", "run", "app.py", "--server.port=7860", "--server.address=0.0.0.0"]
+streamlit
+requests
+pandas
