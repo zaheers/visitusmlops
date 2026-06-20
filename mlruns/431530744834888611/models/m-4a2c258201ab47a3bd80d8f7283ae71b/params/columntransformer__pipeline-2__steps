@@ -1,0 +1,1 @@
+[('simpleimputer', SimpleImputer(strategy='most_frequent')), ('onehotencoder', OneHotEncoder(handle_unknown='ignore'))]

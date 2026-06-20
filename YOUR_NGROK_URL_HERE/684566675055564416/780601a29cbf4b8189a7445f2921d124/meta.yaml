@@ -1,0 +1,14 @@
+artifact_uri: /content/drive/MyDrive/visitusmlops/YOUR_NGROK_URL_HERE/684566675055564416/780601a29cbf4b8189a7445f2921d124/artifacts
+end_time: 1781975512346
+entry_point_name: ''
+experiment_id: '684566675055564416'
+lifecycle_stage: active
+run_id: 780601a29cbf4b8189a7445f2921d124
+run_name: XGBoost_CI_Run
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781975507264
+status: 4
+tags: []
+user_id: root

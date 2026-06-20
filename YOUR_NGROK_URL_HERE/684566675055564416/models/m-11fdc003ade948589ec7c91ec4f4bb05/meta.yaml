@@ -1,0 +1,11 @@
+artifact_location: /content/drive/MyDrive/visitusmlops/YOUR_NGROK_URL_HERE/684566675055564416/models/m-11fdc003ade948589ec7c91ec4f4bb05/artifacts
+creation_timestamp: 1781975507853
+experiment_id: '684566675055564416'
+last_updated_timestamp: 1781975507853
+lifecycle_stage: active
+model_id: m-11fdc003ade948589ec7c91ec4f4bb05
+model_type: null
+name: visitus_best_xgb_model
+source_run_id: 780601a29cbf4b8189a7445f2921d124
+status: 1
+status_message: null

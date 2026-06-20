@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/431530744834888611/96a70f2ef4e5402bb6d07203c8820311/artifacts
+end_time: 1781977557623
+entry_point_name: ''
+experiment_id: '431530744834888611'
+lifecycle_stage: active
+run_id: 96a70f2ef4e5402bb6d07203c8820311
+run_name: inquisitive-hound-57
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781977555990
+status: 3
+tags: []
+user_id: root

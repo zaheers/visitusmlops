@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/431530744834888611/2f47c4d670c34ce8836370e7753909e2/artifacts
+end_time: 1781976148333
+entry_point_name: ''
+experiment_id: '431530744834888611'
+lifecycle_stage: active
+run_id: 2f47c4d670c34ce8836370e7753909e2
+run_name: polite-shrimp-124
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781976147955
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,20 @@
+digest: ce179362
+name: dataset
+profile: '{"num_rows": 3302, "num_elements": 59436}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "Age", "required": true},
+  {"type": "long", "name": "CityTier", "required": true}, {"type": "double", "name":
+  "DurationOfPitch", "required": true}, {"type": "long", "name": "NumberOfPersonVisiting",
+  "required": true}, {"type": "double", "name": "NumberOfFollowups", "required": true},
+  {"type": "double", "name": "PreferredPropertyStar", "required": true}, {"type":
+  "double", "name": "NumberOfTrips", "required": true}, {"type": "long", "name": "Passport",
+  "required": true}, {"type": "long", "name": "PitchSatisfactionScore", "required":
+  true}, {"type": "long", "name": "OwnCar", "required": true}, {"type": "double",
+  "name": "NumberOfChildrenVisiting", "required": true}, {"type": "double", "name":
+  "MonthlyIncome", "required": true}, {"type": "string", "name": "TypeofContact",
+  "required": true}, {"type": "string", "name": "Occupation", "required": true}, {"type":
+  "string", "name": "Gender", "required": true}, {"type": "string", "name": "ProductPitched",
+  "required": true}, {"type": "string", "name": "MaritalStatus", "required": true},
+  {"type": "string", "name": "Designation", "required": true}]}'
+source: '{"tags": {"mlflow.user": "root", "mlflow.source.name": "/content/drive/MyDrive/visitusmlops/backend/model_building/train.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "962ac709127a9d212f6b2640b6ca9bbf6b01cd41"}}'
+source_type: code

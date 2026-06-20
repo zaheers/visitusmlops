@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/431530744834888611/9fa4598c89b7430180e059c38b451c4b/artifacts
+end_time: 1781976987955
+entry_point_name: ''
+experiment_id: '431530744834888611'
+lifecycle_stage: active
+run_id: 9fa4598c89b7430180e059c38b451c4b
+run_name: likeable-stag-924
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781976957956
+status: 3
+tags: []
+user_id: root

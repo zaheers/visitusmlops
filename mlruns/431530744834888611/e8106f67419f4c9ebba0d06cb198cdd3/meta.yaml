@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/431530744834888611/e8106f67419f4c9ebba0d06cb198cdd3/artifacts
+end_time: 1781976987955
+entry_point_name: ''
+experiment_id: '431530744834888611'
+lifecycle_stage: active
+run_id: e8106f67419f4c9ebba0d06cb198cdd3
+run_name: debonair-gnat-336
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781976957956
+status: 3
+tags: []
+user_id: root

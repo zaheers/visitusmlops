@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/431530744834888611/93d36b60235a4d0abe3b2422d8a314ea/artifacts
+end_time: 1781976987955
+entry_point_name: ''
+experiment_id: '431530744834888611'
+lifecycle_stage: active
+run_id: 93d36b60235a4d0abe3b2422d8a314ea
+run_name: smiling-goose-87
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781976957956
+status: 3
+tags: []
+user_id: root
