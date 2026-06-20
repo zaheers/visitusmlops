@@ -57,5 +57,7 @@ with mlflow.start_run(run_name="XGBoost_CI_Run"):
     mlflow.sklearn.log_model(model_pipeline, "visitus_best_xgb_model")
 
 # 5. Save Artifact for Deployment
-joblib.dump(model_pipeline, "visitus_xgb_model.joblib")
-print("🚀 Model saved as visitus_xgb_model.joblib")
+# Save it directly into the directory the pipeline expects
+os.makedirs("backend/model_building", exist_ok=True)
+joblib.dump(model_pipeline, "backend/model_building/visitus_xgb_model.joblib")
+print("🚀 Model saved to backend/model_building/visitus_xgb_model.joblib")
