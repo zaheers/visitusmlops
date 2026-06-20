@@ -6,11 +6,19 @@ on:
       - main
   workflow_dispatch:
 
+# Ensures only the latest commit runs, canceling pending ones
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   register-dataset:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: pip install -r backend/model_building/requirements.txt
       - name: Register Data
@@ -22,7 +30,7 @@ jobs:
     needs: register-dataset
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: pip install -r backend/model_building/requirements.txt
       - name: Prepare Data
@@ -34,7 +42,7 @@ jobs:
     needs: data-prep
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: pip install -r backend/model_building/requirements.txt
       - name: Train Model
@@ -46,9 +54,13 @@ jobs:
     needs: model-training
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: pip install -r backend/deployment/requirements.txt
+        run: |
+          pip install huggingface_hub
+          if [ -f backend/deployment/requirements.txt ]; then 
+            pip install -r backend/deployment/requirements.txt 
+          fi
       - name: Deploy
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
