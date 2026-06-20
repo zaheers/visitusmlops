@@ -1,33 +1,48 @@
-from huggingface_hub import HfApi
+ 
+# hosting.py - Updated Deployment Logic
+import shutil
 import os
+from huggingface_hub import HfApi
 
-# 1. Get your secure token from environment variables
+# 1. Setup
 hf_token = os.getenv('HF_TOKEN')
-if not hf_token:
-    raise ValueError("HF_TOKEN environment variable not set!")
-
 api = HfApi(token=hf_token)
 
-print("🚀 Starting Automated Deployment to Hugging Face...")
-
-# 2. Define relative paths (Assuming host.py runs from the root of the repo)
+# 2. Prepare Backend (Copy Model)
 backend_path = os.path.join(os.getcwd(), "backend", "deployment")
-frontend_path = os.path.join(os.getcwd(), "frontend")
+model_src = os.path.join(os.getcwd(), "backend", "model_building", "visitus_xgb_model.joblib")
 
-# 3. Upload the Backend Server
-print(f"⏳ Uploading Backend API from {backend_path}...")
+if os.path.exists(model_src):
+    shutil.copy(model_src, os.path.join(backend_path, "visitus_xgb_model.joblib"))
+    print("✅ Model copied to deployment folder.")
+
+# 3. Upload Backend
 api.upload_folder(
     folder_path=backend_path, 
     repo_id="zaheergshaikh/visitusapi", 
     repo_type="space" 
 )
-print("✅ Backend deployed successfully.")
 
-# 4. Upload the Frontend UI
-print(f"⏳ Uploading Streamlit UI from {frontend_path}...")
+# 4. Upload Frontend
+# This will put app.py and requirements.txt at the ROOT of the space
+frontend_path = os.path.join(os.getcwd(), "frontend")
 api.upload_folder(
     folder_path=frontend_path, 
     repo_id="zaheergshaikh/visitusapp", 
     repo_type="space" 
 )
-print("✅ Frontend deployed successfully.")
+
+# 5. Fix Config: Point to app.py at the ROOT
+readme_content = """---
+title: Visitus UI
+emoji: 🚀
+sdk: streamlit
+app_file: app.py
+---
+"""
+api.upload_file(
+    path_or_fileobj=readme_content.encode(),
+    path_in_repo="README.md",
+    repo_id="zaheergshaikh/visitusapp",
+    repo_type="space"
+)
