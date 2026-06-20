@@ -1,0 +1,37 @@
+name: VisitUs MLOps End-to-End Pipeline
+
+# This section ensures deployment initiates on every commit to main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: 
+
+jobs:
+  build-train-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          # Dynamically finds and installs all requirements files in the repo
+          find . -name "requirements.txt" -exec pip install -r {} \;
+
+      - name: Execute Model Training
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python backend/model_building/train.py
+
+      - name: Deploy to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python hosting.py
