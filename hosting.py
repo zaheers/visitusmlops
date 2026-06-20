@@ -1,45 +1,45 @@
- 
-# hosting.py - Updated Deployment Logic
 import shutil
 import os
 from huggingface_hub import HfApi
 
-# 1. Setup
+# Setup
 hf_token = os.getenv('HF_TOKEN')
+if not hf_token:
+    raise ValueError("HF_TOKEN environment variable not set!")
 api = HfApi(token=hf_token)
 
-# 2. Prepare Backend (Copy Model)
-backend_path = os.path.join(os.getcwd(), "backend", "deployment")
+# Paths
+backend_deploy_path = os.path.join(os.getcwd(), "backend", "deployment")
 model_src = os.path.join(os.getcwd(), "backend", "model_building", "visitus_xgb_model.joblib")
+model_dest = os.path.join(backend_deploy_path, "visitus_xgb_model.joblib")
 
+# Robust Copy Logic
 if os.path.exists(model_src):
-    shutil.copy(model_src, os.path.join(backend_path, "visitus_xgb_model.joblib"))
-    print("✅ Model copied to deployment folder.")
+    shutil.copy(model_src, model_dest)
+    print(f"✅ Model successfully copied to {model_dest}")
+else:
+    raise FileNotFoundError(f"❌ Critical: Model file not found at {model_src}. Pipeline artifacts failed to transfer.")
 
-# 3. Upload Backend
+# Upload Backend
+print("🚀 Uploading Backend...")
 api.upload_folder(
-    folder_path=backend_path, 
-    repo_id="zaheergshaikh/visitusapi", 
-    repo_type="space" 
+    folder_path=backend_deploy_path,
+    repo_id="zaheergshaikh/visitusapi",
+    repo_type="space",
+    commit_message="CI/CD: Deployment of backend API and model"
 )
 
-# 4. Upload Frontend
-# This will put app.py and requirements.txt at the ROOT of the space
-frontend_path = os.path.join(os.getcwd(), "frontend")
+# Upload Frontend
+print("🚀 Uploading Frontend...")
 api.upload_folder(
-    folder_path=frontend_path, 
-    repo_id="zaheergshaikh/visitusapp", 
-    repo_type="space" 
+    folder_path=os.path.join(os.getcwd(), "frontend"),
+    repo_id="zaheergshaikh/visitusapp",
+    repo_type="space",
+    commit_message="CI/CD: Deployment of frontend UI"
 )
 
-# 5. Fix Config: Point to app.py at the ROOT
-readme_content = """---
-title: Visitus UI
-emoji: 🚀
-sdk: streamlit
-app_file: app.py
----
-"""
+# Fix README
+readme_content = "---\ntitle: Visitus UI\nemoji: 🚀\nsdk: streamlit\napp_file: app.py\n---"
 api.upload_file(
     path_or_fileobj=readme_content.encode(),
     path_in_repo="README.md",

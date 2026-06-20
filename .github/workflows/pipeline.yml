@@ -6,13 +6,9 @@ on:
       - main
   workflow_dispatch:
 
-# Ensures only the latest commit runs, canceling pending ones
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-permissions:
-  contents: read
 
 jobs:
   register-dataset:
@@ -49,18 +45,26 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python backend/model_building/train.py
+      - name: Upload Model Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: backend/model_building/visitus_xgb_model.joblib
 
   deploy-hosting:
     needs: model-training
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Download Model Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trained-model
+          path: backend/model_building/
       - name: Install Dependencies
         run: |
           pip install huggingface_hub
-          if [ -f backend/deployment/requirements.txt ]; then 
-            pip install -r backend/deployment/requirements.txt 
-          fi
+          if [ -f backend/deployment/requirements.txt ]; then pip install -r backend/deployment/requirements.txt; fi
       - name: Deploy
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
