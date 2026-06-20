@@ -34,7 +34,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python backend/model_building/prep.py
 
-model-training:
+  model-training:
     needs: data-prep
     runs-on: ubuntu-latest
     steps:
@@ -49,7 +49,6 @@ model-training:
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
-          # This must be the EXACT file path saved in train.py
           path: backend/model_building/visitus_xgb_model.joblib
 
   deploy-hosting:
@@ -61,7 +60,6 @@ model-training:
         uses: actions/download-artifact@v4
         with:
           name: trained-model
-          # This must place it in the same structure
           path: backend/model_building/
       - name: Install Dependencies
         run: |
