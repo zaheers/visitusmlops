@@ -40,11 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: pip install -r backend/model_building/requirements.txt
+        run: |
+          pip install -r backend/model_building/requirements.txt
+          pip install huggingface_hub  # <-- FIX: Pre-emptively guarantees registration dependencies are met
       - name: Train Model
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          # No longer need dummy paths. MLflow will now default to safe local './mlruns'
+          HF_TOKEN: ${{ secrets.HF_TOKEN }} # <-- Passed correctly to authorize your Model Hub registration
           MLFLOW_TRACKING_URI: ""
         run: python backend/model_building/train.py
       - name: Upload Model Artifact
