@@ -21,7 +21,6 @@ if tracking_uri and tracking_uri.strip():
     mlflow.set_tracking_uri(tracking_uri)
     print(f"🔗 Connecting to remote MLflow at: {tracking_uri}")
 else:
-    # This ensures that in CI/CD, it logs locally and DOES NOT crash
     print("🏠 No remote URI found. Using local ./mlruns directory.")
 
 mlflow.set_experiment("visitus_training_experiment_01")
@@ -70,18 +69,27 @@ with mlflow.start_run(run_name=run_name):
     
     best_model = grid_search.best_estimator_
     
-    # Advanced Evaluation
-    eval_data = Xtest.copy()
-    eval_data["label"] = ytest
-    signature = infer_signature(Xtrain, best_model.predict(Xtrain))
-    model_info = mlflow.sklearn.log_model(best_model, "model", signature=signature)
+    # Manual Metrics Logging (Works in ALL environments)
+    y_pred = best_model.predict(Xtest)
+    report = classification_report(ytest, y_pred, output_dict=True)
+    mlflow.log_metrics({"test_accuracy": report['accuracy']})
     
-    result = mlflow.evaluate(
-        model=model_info.model_uri,
-        data=eval_data,
-        targets="label",
-        model_type="classifier"
-    )
+    # Conditional Advanced Evaluation (Only runs if a remote server is reachable)
+    if tracking_uri and tracking_uri.startswith("http"):
+        print("📊 Running advanced evaluation...")
+        eval_data = Xtest.copy()
+        eval_data["label"] = ytest
+        signature = infer_signature(Xtrain, best_model.predict(Xtrain))
+        model_info = mlflow.sklearn.log_model(best_model, "model", signature=signature)
+        
+        mlflow.evaluate(
+            model=model_info.model_uri,
+            data=eval_data,
+            targets="label",
+            model_type="classifier"
+        )
+    else:
+        print("🏠 Skipping advanced evaluation graphs in local/CI mode.")
     
     print(f"✅ Training complete. Best Params: {grid_search.best_params_}")
 

@@ -44,9 +44,8 @@ jobs:
       - name: Train Model
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          # Force MLflow to use local filesystem and bypass remote artifact storage
-          MLFLOW_TRACKING_URI: "file:///home/runner/work/visitusmlops/visitusmlops/mlruns"
-          MLFLOW_ARTIFACT_URI: "file:///home/runner/work/visitusmlops/visitusmlops/mlruns"
+          # No longer need dummy paths. MLflow will now default to safe local './mlruns'
+          MLFLOW_TRACKING_URI: ""
         run: python backend/model_building/train.py
       - name: Upload Model Artifact
         uses: actions/upload-artifact@v4
