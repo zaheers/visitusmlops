@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/431530744834888611/6ab40a81f35c4f2e9d7396894142ae68/artifacts
+end_time: 1782028358264
+entry_point_name: ''
+experiment_id: '431530744834888611'
+lifecycle_stage: active
+run_id: 6ab40a81f35c4f2e9d7396894142ae68
+run_name: sedate-midge-696
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1782028357962
+status: 3
+tags: []
+user_id: root
