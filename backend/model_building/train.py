@@ -16,11 +16,18 @@ from mlflow.models import infer_signature
 
 # 1. Setup Tracking
 tracking_uri = os.getenv("MLFLOW_TRACKING_URI")
-if tracking_uri:
+
+if tracking_uri and tracking_uri.strip():
     mlflow.set_tracking_uri(tracking_uri)
+    print(f"🔗 Connecting to remote MLflow at: {tracking_uri}")
+else:
+    # This ensures that in CI/CD, it logs locally and DOES NOT crash
+    print("🏠 No remote URI found. Using local ./mlruns directory.")
+
 mlflow.set_experiment("visitus_training_experiment_01")
 
 # 2. Load Datasets
+print("⬇️ Loading datasets...")
 Xtrain = pd.read_csv("hf://datasets/zaheergshaikh/visitusdata/Xtrain.csv")
 Xtest = pd.read_csv("hf://datasets/zaheergshaikh/visitusdata/Xtest.csv")
 ytrain = pd.read_csv("hf://datasets/zaheergshaikh/visitusdata/ytrain.csv").squeeze()
@@ -81,3 +88,4 @@ with mlflow.start_run(run_name=run_name):
 # 5. Local Export
 os.makedirs("backend/model_building", exist_ok=True)
 joblib.dump(best_model, "backend/model_building/visitus_xgb_model.joblib")
+print("🚀 Model saved to backend/model_building/visitus_xgb_model.joblib")
