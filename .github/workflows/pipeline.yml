@@ -34,7 +34,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python backend/model_building/prep.py
 
-  model-training:
+model-training:
     needs: data-prep
     runs-on: ubuntu-latest
     steps:
@@ -44,6 +44,8 @@ jobs:
       - name: Train Model
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          # Fix: Force local tracking in CI/CD to prevent network dependency errors
+          MLFLOW_TRACKING_URI: ""
         run: python backend/model_building/train.py
       - name: Upload Model Artifact
         uses: actions/upload-artifact@v4
