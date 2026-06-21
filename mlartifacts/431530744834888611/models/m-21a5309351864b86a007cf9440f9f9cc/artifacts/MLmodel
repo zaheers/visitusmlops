@@ -1,0 +1,41 @@
+artifact_path: mlflow-artifacts:/431530744834888611/models/m-21a5309351864b86a007cf9440f9f9cc/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.13
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 3.0.1
+model_id: m-21a5309351864b86a007cf9440f9f9cc
+model_size_bytes: 168630
+model_uuid: m-21a5309351864b86a007cf9440f9f9cc
+prompts: null
+run_id: 281e4981f98b4d87adbe6b1decc8fe29
+signature:
+  inputs: '[{"type": "double", "name": "Age", "required": true}, {"type": "long",
+    "name": "CityTier", "required": true}, {"type": "double", "name": "DurationOfPitch",
+    "required": true}, {"type": "long", "name": "NumberOfPersonVisiting", "required":
+    true}, {"type": "double", "name": "NumberOfFollowups", "required": true}, {"type":
+    "double", "name": "PreferredPropertyStar", "required": true}, {"type": "double",
+    "name": "NumberOfTrips", "required": true}, {"type": "long", "name": "Passport",
+    "required": true}, {"type": "long", "name": "PitchSatisfactionScore", "required":
+    true}, {"type": "long", "name": "OwnCar", "required": true}, {"type": "double",
+    "name": "NumberOfChildrenVisiting", "required": true}, {"type": "double", "name":
+    "MonthlyIncome", "required": true}, {"type": "string", "name": "TypeofContact",
+    "required": true}, {"type": "string", "name": "Occupation", "required": true},
+    {"type": "string", "name": "Gender", "required": true}, {"type": "string", "name":
+    "ProductPitched", "required": true}, {"type": "string", "name": "MaritalStatus",
+    "required": true}, {"type": "string", "name": "Designation", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-06-21 12:57:23.305639'
