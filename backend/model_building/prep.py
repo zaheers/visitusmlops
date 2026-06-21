@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split
 from huggingface_hub import HfApi
 
 # 1. Environment-Aware Configuration
-# Use environment variable for HF_TOKEN
 hf_token = os.getenv("HF_TOKEN")
 if not hf_token:
     raise ValueError("HF_TOKEN environment variable not set!")
@@ -12,13 +11,31 @@ if not hf_token:
 api = HfApi(token=hf_token)
 
 # 2. Path Handling
-# If running in CI/CD, use the working directory; otherwise, use Drive
 base_dir = os.getcwd() if os.getenv("GITHUB_ACTIONS") else "/content/drive/MyDrive/visitusmlops"
 data_path = os.path.join(base_dir, "data", "tourism.csv")
 output_dir = os.path.join(base_dir, "data")
 
 tourism_dataset = pd.read_csv(data_path)
 tourism_dataset = tourism_dataset.drop(columns=['Unnamed: 0', 'CustomerID'], errors='ignore')
+
+# === 2b. Clean Categorical Anomalies (Gender & MaritalStatus) ===
+gender_mapping = {
+    'Male': 'Male',
+    'Female': 'Female',
+    'Fe Male': 'Female'
+}
+
+marital_mapping = {
+    'Single': 'Single',
+    'Unmarried': 'Single',
+    'Married': 'Married',
+    'Divorced': 'Divorced'
+}
+
+# Apply mappings securely and handle any unexpected values safely
+tourism_dataset['Gender'] = tourism_dataset['Gender'].map(gender_mapping).fillna(tourism_dataset['Gender'])
+tourism_dataset['MaritalStatus'] = tourism_dataset['MaritalStatus'].map(marital_mapping).fillna(tourism_dataset['MaritalStatus'])
+# ================================================================
 
 # 3. Data Processing
 target = 'ProdTaken'
